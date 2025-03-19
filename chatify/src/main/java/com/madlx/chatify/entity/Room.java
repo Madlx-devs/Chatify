@@ -1,7 +1,6 @@
 package com.madlx.chatify.entity;
 
 
-import com.madlx.chatify.enums.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
