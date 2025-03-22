@@ -1,20 +1,27 @@
 package com.madlx.chatify.service;
 
 import com.madlx.chatify.dto.RoomDto;
+import com.madlx.chatify.dto.UserDto;
+import com.madlx.chatify.entity.User;
 import com.madlx.chatify.enums.Roles;
 import com.madlx.chatify.exceptions.RoomNotFoundException;
 import com.madlx.chatify.entity.Room;
+import com.madlx.chatify.exceptions.UserNotAuthorizedException;
 import com.madlx.chatify.repo.RoomRepo;
 import com.madlx.chatify.repo.UserRepo;
 import com.madlx.chatify.security.AppUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.embedded.undertow.UndertowServletWebServer;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,14 +48,13 @@ public class RoomService {
     }
     @PreAuthorize("isAuthenticated()")
     public RoomDto joinRoom(UUID roomId,AppUserDetails userDetails) {
-            Room roomMap= roomRepo.findById(roomId).map(room -> {
-                 userRepo.findByUsername(userDetails.getUsername()).map(user -> {
-                     room.setParticipants(Set.of(user));
-                     return  user;
-                 }).orElseThrow(()-> new RoomNotFoundException("no such room"));
-                return room;
-             }).orElseThrow(()-> new UsernameNotFoundException("no user found"));
-             return  new RoomDto(roomMap.getUuid(),roomMap.getRoomName(),roomMap.getRoomDescription());
+        Room room=   roomRepo.findById(roomId).
+                orElseThrow(()->new RoomNotFoundException("no room present"));
+        User user =userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(()->new RuntimeException("no user"));
+        room.getParticipants().add(user);
+        Room roomSaved= roomRepo.save(room);
+        return new RoomDto(roomSaved.getUuid(),roomSaved.getRoomName(),roomSaved.getRoomDescription(),user.getId(),user.getUsername());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -61,5 +67,18 @@ public class RoomService {
                 .orElseThrow(() -> new RoomNotFoundException("ROOM NOT FOUND"));
     }
 
+    public List<UserDto> allUserByRoom(UUID roomId, UserDetails userDetails) {
+        Room room = roomRepo.findById(roomId)
+                .orElseThrow(() -> new RoomNotFoundException("Room not found"));
 
+        User user = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!room.getParticipants().contains(user)) {
+            throw new UserNotAuthorizedException("User not authorized");
+        }
+        return room.getParticipants().stream()
+                .map(user1 -> new UserDto(user1.getId(), user1.getUsername(), user1.getFirstName(), user1.getLastName()))
+                .toList();
+    }
 }
