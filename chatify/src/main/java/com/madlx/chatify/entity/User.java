@@ -22,7 +22,15 @@ public class User{
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
-    private String firstName;
+    private String firstname;
+
+    public User(String username, String password, String firstname, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastName = lastName;
+    }
+
     @Column(nullable = true)
     private String lastName;
     private Status status;
