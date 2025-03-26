@@ -1,5 +1,6 @@
 package com.madlx.chatify.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.security.web.csrf.CsrfToken;
 
 
 @Configuration
@@ -30,16 +29,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(authorize->
-            authorize.requestMatchers("api/v1/CreateUser")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated())
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+        http.csrf(AbstractHttpConfigurer::disable);
         return  http.build();
     }
-
 
 
     @Bean
