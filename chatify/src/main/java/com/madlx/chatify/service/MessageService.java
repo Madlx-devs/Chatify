@@ -14,8 +14,10 @@ import java.util.UUID;
 
 public interface MessageService {
     @PreAuthorize("isAuthenticated()")
-    MessageDto sendMessage(MessageRequest messageRequest, AppUserDetails userDetails) throws UsernameNotFoundException, RoomNotFoundException, TopicNotFoundException;
+    MessageDto sendMessage(MessageRequest messageRequest, UserDetails userDetails) throws UsernameNotFoundException, RoomNotFoundException, TopicNotFoundException;
 
     @PreAuthorize("isAuthenticated()")
     List<MessageDto> AllMessageRoom(UUID roomId, UserDetails userDetails);
+
+    boolean deleteMessage(Long messageId,UserDetails userDetails);
 }

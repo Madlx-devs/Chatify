@@ -1,5 +1,6 @@
 package com.madlx.chatify.service;
 
+import com.madlx.chatify.dataRequest.RegisterRequest;
 import com.madlx.chatify.dto.UserDto;
 import com.madlx.chatify.exceptions.UserAlreadyExistException;
 import com.madlx.chatify.entity.User;
@@ -8,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import static com.madlx.chatify.enums.Roles.USER;
 
 
 @Service
@@ -21,18 +20,14 @@ public class UserService  {
 
     private  final PasswordEncoder passwordEncoder;
 
-    public UserDto createUser(User user){
-      userRepo.findByUsername(user.getUsername()).ifPresent((user1) -> {
-          throw new UserAlreadyExistException("USER ALREADY EXIST");
-      });
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
-      user.setRole(USER);
-       User fetchedUser =userRepo.save(user);
-        return new UserDto(fetchedUser.getId(),
-                           fetchedUser.getUsername(),
-                           fetchedUser.getFirstName(),
-                           fetchedUser.getLastName());
+    public UserDto registerUser(RegisterRequest request) throws UserAlreadyExistException {
+        userRepo.findByUsername(request.getUsername()).ifPresent((user)->{throw  new UserAlreadyExistException("user already exist with this username");});
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+        User userToSave = new User(request.getUsername(),encryptedPassword, request.getFirstname(),request.getLastname());
+        User savedUser= userRepo.save(userToSave);
+        return new UserDto(savedUser.getId(),savedUser.getUsername(), savedUser.getFirstname(), savedUser.getLastname());
     }
+
     public boolean deleteUser(Long userId){
         return userRepo.findById(userId).
                 map(user -> {

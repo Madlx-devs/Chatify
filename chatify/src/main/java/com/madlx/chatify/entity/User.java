@@ -23,16 +23,15 @@ public class User{
     private String password;
     @Column(nullable = false)
     private String firstname;
+    @Column(nullable = true)
+    private String lastname ;
+    private Status status;
+    private Roles role;
 
-    public User(String username, String password, String firstname, String lastName) {
+    public User(String username, String password, String firstname, String lastname) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
-        this.lastName = lastName;
+        this.lastname = lastname;
     }
-
-    @Column(nullable = true)
-    private String lastName;
-    private Status status;
-    private Roles role;
 }

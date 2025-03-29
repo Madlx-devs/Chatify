@@ -2,6 +2,7 @@ package com.madlx.chatify.controllers;
 
 
 import com.madlx.chatify.exceptions.RoomNotFoundException;
+import com.madlx.chatify.exceptions.TopicNotFoundException;
 import com.madlx.chatify.exceptions.UserAlreadyExistException;
 import com.madlx.chatify.exceptions.UserNotAuthorizedException;
 import org.springframework.http.HttpStatus;
@@ -13,22 +14,26 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerController {
 
     @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<String> UserAlreadyExist(){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("user already exist with this username");
+    public ResponseEntity<String> UserAlreadyExist(UserAlreadyExistException userAlreadyExistException){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(userAlreadyExistException.getMessage());
     }
 
     @ExceptionHandler(UserNotAuthorizedException.class)
-    public ResponseEntity<String> userNotAuthorized(){
-        return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("you are not authorized to access this resource");
+    public ResponseEntity<String> userNotAuthorized(UserNotAuthorizedException userNotAuthorizedException){
+        return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userNotAuthorizedException.getMessage());
     }
 
     @ExceptionHandler(RoomNotFoundException.class)
-    public ResponseEntity<String >roomNotFound(){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no such room found");
+    public ResponseEntity<String >roomNotFound(RoomNotFoundException roomNotFoundException){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(roomNotFoundException.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(String message){
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(message);
+    public ResponseEntity<String> handleRuntimeException(RuntimeException runtimeException){
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(runtimeException.getMessage());
+    }
+    @ExceptionHandler(TopicNotFoundException.class)
+    public ResponseEntity<String> handleTopicException(TopicNotFoundException topicNotFoundException){
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(topicNotFoundException.getMessage());
     }
 }

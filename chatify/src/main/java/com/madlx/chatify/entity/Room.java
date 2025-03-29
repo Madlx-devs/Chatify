@@ -32,7 +32,7 @@ public class Room {
     private Set<User> participants;
 
     @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name = "topic_id")
+    @JoinColumn(name = "topic_id",nullable = false)
     private Topic topic ;
     @JoinTable(name = "room_admins",
     joinColumns = @JoinColumn(name="room_id"),

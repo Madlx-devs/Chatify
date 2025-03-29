@@ -1,4 +1,10 @@
 package com.madlx.chatify.exceptions;
 
-public class UserNotFoundException {
+import com.madlx.chatify.entity.User;
+
+public class UserNotFoundException extends RuntimeException{
+
+    UserNotFoundException(String message){
+        super(message);
+    }
 }

@@ -20,8 +20,5 @@ public class UserControllers {
     public ResponseEntity<UserDto> updateUser(@RequestBody User user)throws UserNotAuthorizedException{
         return new  ResponseEntity<>(HttpStatus.OK);
     }
-    @PostMapping("/CreateUser")
-    public ResponseEntity<UserDto> createUser(@RequestBody User user)throws UserAlreadyExistException{
-        return new ResponseEntity<UserDto>(userService.createUser(user),HttpStatus.CREATED);
-    }
+
 }

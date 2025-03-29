@@ -6,13 +6,13 @@ import com.madlx.chatify.entity.Message;
 import com.madlx.chatify.entity.Room;
 import com.madlx.chatify.entity.Topic;
 import com.madlx.chatify.entity.User;
+import com.madlx.chatify.exceptions.MessageNotFoundException;
 import com.madlx.chatify.exceptions.RoomNotFoundException;
 import com.madlx.chatify.exceptions.TopicNotFoundException;
 import com.madlx.chatify.exceptions.UserNotAuthorizedException;
 import com.madlx.chatify.repo.MessageRepo;
 import com.madlx.chatify.repo.RoomRepo;
 import com.madlx.chatify.repo.UserRepo;
-import com.madlx.chatify.security.AppUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 
 @Service
-public class MessageServiceImpl {
+public class MessageServiceImpl implements MessageService {
 
     private final MessageRepo messageRepo;
     private final UserRepo userRepo;
@@ -36,7 +36,8 @@ public class MessageServiceImpl {
         this.roomRepo=roomRepo;
     }
     @PreAuthorize("isAuthenticated()")
-    public MessageDto sendMessage(MessageRequest messageRequest, AppUserDetails userDetails)throws UsernameNotFoundException, RoomNotFoundException, TopicNotFoundException {
+    @Override
+    public MessageDto sendMessage(MessageRequest messageRequest, UserDetails userDetails)throws UsernameNotFoundException, RoomNotFoundException, TopicNotFoundException {
        //fetching the username from the authentication(securityContextHolder)
         String uname= userDetails.getUsername();
         //fetching the user based on the username;
@@ -56,7 +57,8 @@ public class MessageServiceImpl {
          return new MessageDto(messageReceived.getContent(),messageReceived.getUser().getUsername());
     }
         @PreAuthorize("isAuthenticated()")
-        public List<MessageDto> AllMessageRoom(UUID roomId,UserDetails userDetails){
+        @Override
+        public List<MessageDto> AllMessageRoom(UUID roomId, UserDetails userDetails){
         Room room = roomRepo.findById(roomId).orElseThrow(()->new RoomNotFoundException("No room found"));
         User user = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(()->new UsernameNotFoundException("user not found"));
             if(!room.getParticipants().contains(user)){
@@ -66,5 +68,15 @@ public class MessageServiceImpl {
             return messages.stream().map(message -> new MessageDto(message.getContent(),message.getUser().getUsername()))
                     .toList();
         }
+
+    @Override
+    public boolean deleteMessage(Long messageId,UserDetails userDetails) {
+        Message msg =messageRepo.findById(messageId).orElseThrow(()->new MessageNotFoundException("no message exist"));
+        if(msg.getUser().getUsername().equals(userDetails.getUsername())){
+            messageRepo.delete(msg);
+            return true;
+        }
+        return false;
+    }
 
 }
