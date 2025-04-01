@@ -33,7 +33,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        http.authorizeHttpRequests(request ->
-                        request.requestMatchers("/login", "/signup","/home")
+                        request.requestMatchers("/login", "/signup","/")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())

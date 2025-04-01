@@ -1,11 +1,18 @@
+import { useState } from 'react';
+import './App.css';
+import Navbar from './pages/Navbar';
+import Register from './pages/Register';
+import LoginForm from './pages/LoginForm';
 
-import './App.css'
-import LoginForm from './pages/LoginForm'
-import './pages/Navbar'
-import Navbar from './pages/Navbar'
 function App() {
-  return(
-  <LoginForm/>
-)
+  const [loggedIn, setLoggedIn] = useState(true);
+
+  return (
+    <div>
+      {loggedIn ? <LoginForm/> : <Register />}
+    </div>
+  );
 }
-export default App
+
+export default App;
+

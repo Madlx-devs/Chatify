@@ -1,10 +1,9 @@
 package com.madlx.chatify.controllers;
 
 
-import com.madlx.chatify.exceptions.RoomNotFoundException;
-import com.madlx.chatify.exceptions.TopicNotFoundException;
-import com.madlx.chatify.exceptions.UserAlreadyExistException;
-import com.madlx.chatify.exceptions.UserNotAuthorizedException;
+import com.madlx.chatify.exceptions.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import org.hibernate.internal.util.StringHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -35,5 +34,10 @@ public class ExceptionHandlerController {
     @ExceptionHandler(TopicNotFoundException.class)
     public ResponseEntity<String> handleTopicException(TopicNotFoundException topicNotFoundException){
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(topicNotFoundException.getMessage());
+    }
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<String> handleJwtException()
+    {
+        return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("please login again");
     }
 }
