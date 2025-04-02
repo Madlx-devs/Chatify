@@ -19,8 +19,8 @@ public class SocketController {
 
     private final MessageControllers messageControllers;
 
-    @MessageMapping("/room/{roomId}")
-    @SendTo("/room/{roomId}")
+    @MessageMapping("/roomsgit/{roomId}")
+    @SendTo("/rooms/{roomId}")
     public ResponseEntity<?> SendMessage(@DestinationVariable UUID roomId , MessageRequest request, @AuthenticationPrincipal AppUserDetails userDetails){
         return messageControllers.sendMessage(request,userDetails);
     }
