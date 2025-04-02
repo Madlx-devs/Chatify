@@ -6,6 +6,7 @@ import com.madlx.chatify.exceptions.UserNotAuthorizedException;
 import com.madlx.chatify.entity.Room;
 import com.madlx.chatify.security.AppUserDetails;
 import com.madlx.chatify.service.RoomService;
+import com.madlx.chatify.utility.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,8 +43,9 @@ public class RoomController {
     }
     @GetMapping("/getUsers")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<UserDto>> getAllUserByRoom(@RequestParam UUID roomId, @AuthenticationPrincipal UserDetails userDetails){
-        return new ResponseEntity<>(roomService.allUserByRoom(roomId,userDetails),HttpStatus.OK);
+    public ResponseEntity<ApiResponse<List<UserDto>>> getAllUserByRoom(@RequestParam UUID roomId, @AuthenticationPrincipal UserDetails userDetails){
+        List<UserDto> users=roomService.allUserByRoom(roomId,userDetails);
+       return new ResponseEntity<>(new ApiResponse<>("all users ",users),HttpStatus.OK);
     }
 
 }
