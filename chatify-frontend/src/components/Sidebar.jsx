@@ -1,117 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
-import RoomContext from '../utils/RoomContext';
-import { Link } from 'react-router-dom';
-import { validate as uuidValidate } from 'uuid';
+import React from 'react'
+
 function Sidebar() {
-  const [topics, setTopics] = useState([]);
-  const [openTopics, setOpenTopics] = useState({});
-  const { setRoomId } = useContext(RoomContext);
-  const token = localStorage.getItem('token');
-
-  useEffect(() => {
-    const fetchTopicsAndRooms = async () => {
-      try {
-        const topicRes = await axios.get('http://localhost:8080/api/v1/topic/getall', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        const topicsData = topicRes.data;
-        const roomRequests = topicsData.map((topic) =>
-          axios.get('http://localhost:8080/api/v1/topic/allrooms', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-            params: { topicId: topic.topicId },
-          })
-        );
-
-        const roomResponses = await Promise.all(roomRequests);
-
-        const topicsWithRooms = topicsData.map((topic, index) => ({
-          ...topic,
-          rooms: roomResponses[index].data,
-        }));
-
-        setTopics(topicsWithRooms);
-      } catch (error) {
-        console.error('Error fetching sidebar data:', error);
-      }
-    };
-
-    if (token) {
-      fetchTopicsAndRooms();
-    }
-  }, [token]);
-
-  const toggleTopic = (topicId) => {
-    setOpenTopics((prev) => ({
-      ...prev,
-      [topicId]: !prev[topicId],
-    }));
-  };
-
-  const handleRoomClick = (uuid) => {
-  if (uuidValidate(uuid)) {
-    setRoomId(uuid);
-    console.log(uuid)
-  } else {
-    console.error('Invalid UUID from API:', uuid);
-  }
-}
-
   return (
-    <div className="bg-gray-900 text-white w-64 h-screen p-4 overflow-y-auto shadow-md">
-      <h2 className="text-lg font-bold mb-4 text-center">Topics</h2>
-
-      {topics.map((topic) => (
-        <div key={topic.topicId} className="mb-3">
-          <button
-            className="w-full flex justify-between items-center px-3 py-2 bg-gray-800 rounded hover:bg-gray-700 transition"
-            onClick={() => toggleTopic(topic.topicId)}
-          >
-            <span>{topic.topicName}</span>
-            <span>{openTopics[topic.topicId] ? '▲' : '▼'}</span>
-          </button>
-
-          {openTopics[topic.topicId] && (
-            <ul className="ml-4 mt-2 space-y-1">
-              {topic.rooms && topic.rooms.length > 0 ? (
-                topic.rooms.map((room) => (
-                  <li
-                    key={room.roomId}
-                    className="text-sm px-3 py-1 hover:bg-gray-700 rounded cursor-pointer transition flex justify-between items-center"
-                  >
-                    <span onClick={() => handleRoomClick(room.uuid)}>
-                      # {room.roomName}</span>
-                  
-                  </li>
-                ))
-              ) : (
-                <li className="text-xs text-gray-400 italic px-3">No rooms</li>
-              )}
-              <Link
-                to="/create-room"
-                className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-              >
-                Create room
-              </Link>
-            </ul>
-          )}
-        </div>
-      ))}
-      <Link
-        to="/create-topic"
-        className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-      >
-        Create Topic
-      </Link>
+    <div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-500">
+  <path d="M10 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM3.465 14.493a1.23 1.23 0 0 0 .41 1.412A9.957 9.957 0 0 0 10 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 0 0-13.074.003Z" />
+</svg>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+</svg>
     </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar

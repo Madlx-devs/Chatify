@@ -1,69 +1,98 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from '../redux/loginSlice';
+import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const loggedIn = useSelector((state) => state.login.loggedIn)
 
   const handleLogin = async () => {
-    setError('');
+    if (loggedIn) {
+      navigate('/profile')
+    }
     try {
-      const response = await axios.post('http://localhost:8080/login', {
-        username,
-        password,
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/login`,
+        { username, password },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      const token = response.data.token
+      localStorage.setItem("token", token)
+      const user1 = JSON.stringify(response.data.user)
+
+      localStorage.setItem("user", user1)
+      dispatch(login({ token }))
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 0,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
       });
+      Toast.fire({
+        icon: "success",
+        title: "Signed in successfully"
+      });
+      navigate("/profile")
 
-      const data = response.data;
-
-      localStorage.setItem('token', data.token);
-      navigate('/');
     } catch (err) {
-      console.error('Login failed:', err);
-      setError(err.response?.data?.message || 'Login failed');
+      console.log(err);
     }
   };
 
   return (
-    <div className="border rounded p-4 max-w-md mx-auto mt-10">
-      <h2 className="text-2xl font-semibold mb-4">Login</h2>
+    <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-8 space-y-6">
+        <h2 className="text-2xl font-bold text-center text-gray-800">Log In</h2>
 
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          className="block w-full border p-2 rounded mb-4"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+        <div className="flex flex-col space-y-4">
+          <input
+            type="text"
+            placeholder="Username"
+            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          className="block w-full border p-2 rounded mb-4"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <button
-          type="button"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
-          onClick={handleLogin}
-        >
-          Log In
-        </button>
+          <button
+            type="button"
+            onClick={handleLogin}
+            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition duration-300"
+          >
+            Log In
+          </button>
+        </div>
 
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-        <br />
-        <a href="/signup">
-        new user? click here to sign up</a>
-      </form>
+        <div className="text-center text-sm text-gray-500">
+          Don't have an account?{' '}
+          <a href="/signup" className="text-blue-600 hover:underline">
+            Sign up
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,18 +1,18 @@
-import './index.css';
-import AppRoutes from './utils/Routes';
-import { Routes, Route } from 'react-router-dom';
-import RoomProvider from './utils/RoomProviders';
+import FirstPage from './components/FirstPage'
+
+import './App.css'
+import { useState } from 'react'
+import HomePage from './components/HomePage'
+import Layout from './components/Layout'
 
 function App() {
+
+
   return (
-    <RoomProvider>
-      <Routes>
-        {AppRoutes.map((r, idx) => (
-          <Route key={idx} path={r.path} element={r.element} />
-        ))}
-      </Routes>
-    </RoomProvider>
-  );
+    <>
+    <Layout/>
+    </>
+  )
 }
 
-export default App;
+export default App

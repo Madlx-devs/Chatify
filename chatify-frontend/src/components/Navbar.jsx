@@ -1,72 +1,69 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import boy from '../assets/boy.png';
-import logo from '../assets/logo.png';
+import React from 'react'
+import logo from '../assets/logo.png'
+import { Link, NavLink } from 'react-router-dom'
 
 function Navbar() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const [loggedIn , setLoggedIn]=useState(true)
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setLoggedIn(false)
-    alert("you have been looged out")
-   if(loggedIn){
-    location.reload()
-   }
-    navigate('/');
-  };
-
-  // Close dropdown if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   return (
-    <nav className="bg-gray-800 text-white py-4 mt-10 flex justify-between items-center px-6 shadow-md">
-      {/* Logo (static) */}
-      <div className="text-xl font-bold text-white">
-        <Link to="/">
-          <img src={logo} alt="Logo" className="w-20 h-auto" />
-        </Link>
-      </div>
+    
 
-      {/* Navigation links */}
-      <div className="space-x-6 text-white font-medium">
-        <Link to="/" className="hover:text-blue-600">Home</Link>
-        <Link to="/rooms" className="hover:text-blue-600">My Rooms</Link>
-        <Link to="/explore" className="hover:text-blue-600">Explore</Link>
+<nav className="bg-white border-gray-200 dark:bg-gray-900">
+  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+  <NavLink to='/' className="flex items-center space-x-3 rtl:space-x-reverse">
+      <img src={logo} className="h-12" alt="chatify Logo" />
+      
+  </NavLink>
+  <div className="flex md:order-2">
+    <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1">
+      <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+      </svg>
+      <span className="sr-only">Search</span>
+    </button>
+    <div className="relative hidden md:block">
+      <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+        </svg>
+        <span className="sr-only">Search icon</span>
       </div>
-
-      {/* Profile Image with Dropdown */}
-      <div className="relative" ref={dropdownRef}>
-        <button onClick={() => setDropdownOpen(!dropdownOpen)}>
-          <div className="w-10 h-10 rounded-full overflow-hidden border border-gray-300">
-            <img src={boy} alt="Profile" className="w-full h-full object-cover" />
-          </div>
-        </button>
-
-        {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg z-50">
-            <button
-              onClick={handleLogout}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-            >
-              Logout
-            </button>
-          </div>
-        )}
+      <input type="text" id="search-navbar" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..."/>
+    </div>
+    <button data-collapse-toggle="navbar-search" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
+        <span className="sr-only">Open main menu</span>
+        <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
+        </svg>
+    </button>
+  </div>
+    <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
+      <div className="relative mt-3 md:hidden">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
+        </div>
+        <input type="text" id="search-navbar2" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..."/>
       </div>
-    </nav>
-  );
+      <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <NavLink to='/' className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to='about' className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</NavLink>
+        </li>
+        <li>
+          <NavLink to='/my-room' className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Myrooms</NavLink>
+        </li>
+        <Link to ='/profile'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+</svg>
+</Link>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  )
 }
 
-export default Navbar;
+export default Navbar

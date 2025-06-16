@@ -1,104 +1,101 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-function SignUp() {
+function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
 
-  const handleSignUp = async (e) => {
-    e.preventDefault();
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSignup = async () => {
+    if (!firstname || !lastname || !username || !email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Email format validation
+    if (!validateEmail(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Password strength check
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
+
     try {
-      const res = await axios.post(
-        'http://localhost:8080/signup',
-        {
-          username,
-          password,
-          firstname,
-          lastname,
-        },
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/signup`,
+        { firstname, lastname, username, email, password },
         {
           headers: {
-            'Content-Type': 'application/json',
-          },
+            "Content-Type": "application/json"
+          }
         }
       );
-      alert('Account created successfully!');
-      navigate('/login');
-    } catch (error) {
-      console.error('Signup error:', error);
-      alert('Signup failed. Please try again.');
+      console.log(response.data)
+      alert(response.data.message ||"maja aa gaiya ");
+    } catch (err) {
+      alert(err.response?.data);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSignUp}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">Create Account</h2>
+    <div className="min-h-screen bg-slate-800 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center text-slate-800 mb-6">Sign Up</h1>
 
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">First Name</label>
-          <input
-            type="text"
-            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={firstname}
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="John"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Last Name</label>
-          <input
-            type="text"
-            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={lastname}
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Doe"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Username</label>
-          <input
-            type="text"
-            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="johndoe123"
-            required
-          />
-        </div>
-
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">Password</label>
-          <input
-            type="password"
-            className="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="********"
-            required
-          />
-        </div>
-
-        <button
+        <input
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          value={firstname}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="Enter your first name"
+        />
+        <input
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          value={lastname}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Enter your last name"
+        />
+        <input
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Enter your username"
+        />
+        <input
+          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email address"
+        />
+        <input
+          className="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter your password"
+        />
+        <input
+          className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition duration-300 cursor-pointer"
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
-          Sign Up
-        </button>
-      </form>
+          value="Sign Up"
+          onClick={handleSignup}
+        />
+      </div>
     </div>
   );
 }
 
-export default SignUp;
+export default Signup;
