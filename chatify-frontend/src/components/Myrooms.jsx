@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 function Myrooms() {
 
 const [rooms , setRooms]= useState([]);
-
 useAuthentication();
 
 const getRooms = async()=>{
@@ -21,7 +20,7 @@ const getRooms = async()=>{
 }
   return (
     <div>
-    <h1 className='bg-slate-500 text-center justify-center'> rooms</h1>
+    <h1 className='bg-slate-500  text-white text-center justify-center'> rooms</h1>
     {
     rooms.map((room)=><li>{room.name}</li>)}
     </div>

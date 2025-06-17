@@ -10,6 +10,7 @@ const navigate = useNavigate();
 
  useEffect(()=>{
     if(!loggedIn && token == null){
+        console.log(new Date().getFullYear())
         navigate('/login')
     }
  },[ token , loggedIn])

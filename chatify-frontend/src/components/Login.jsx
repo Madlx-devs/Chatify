@@ -48,7 +48,7 @@ function Login() {
         icon: "success",
         title: "Signed in successfully"
       });
-      navigate("/profile")
+      navigate('/profile')
 
     } catch (err) {
       console.log(err);

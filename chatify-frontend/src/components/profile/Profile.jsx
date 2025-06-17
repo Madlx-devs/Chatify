@@ -1,32 +1,34 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { use, useEffect } from 'react';
+import { Link, Links, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../redux/loginSlice';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';;
 
 function ProfilePage() {
   const loggedIn = useSelector((state) => state.login.loggedIn);
   const token =localStorage.getItem('token')
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user1 = localStorage.getItem('user')
-  const user  = JSON.parse(user1)
-
+  const user = JSON.parse(localStorage.getItem('user'))
   useEffect(()=>{
-    if(!loggedIn && token==null){
+    if(!loggedIn && token==null || !user){
       navigate("/login")
     }
   },[loggedIn , token])
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user')
     dispatch(logout())
     Swal.fire({
       icon:'success',
       title:"you have been logged out"
     })
   };
+  const editProfile =()=>{
+    <Link to={'edit-profile'}/>
+  }
 
   if(!user) return null
   return (
@@ -49,7 +51,7 @@ function ProfilePage() {
         </p>
 
         <div className="mt-6 flex justify-center gap-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl shadow transition-all">
+          <button onClick={editProfile} className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-xl shadow transition-all">
             Edit Profile
           </button>
           <button
