@@ -27,7 +27,7 @@ function ProfilePage() {
     })
   };
   const editProfile =()=>{
-    <Link to={'edit-profile'}/>
+     navigate('/edit-profile')
   }
 
   if(!user) return null

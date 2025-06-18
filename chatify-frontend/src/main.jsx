@@ -26,9 +26,8 @@ function AppRoutes() {
         <Route path="about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path='/profile' element={<Profile/>} >
-          <Route path='edit-profile' element={<EditProfile/>}></Route>
-        </Route>
+        <Route path='/profile' element={<Profile/>} />
+        <Route path='edit-profile' element={<EditProfile/>}></Route>
         <Route path="*" element={<ErrorPage/>} />
         <Route path='/my-room' element={<Myrooms/>}/>
         <Route path='/create-topic' element={<CreateTopics/>}/>

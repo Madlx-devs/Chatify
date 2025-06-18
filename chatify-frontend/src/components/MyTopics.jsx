@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import useAuthentication from '../hooks/useLogin';
 
-import useFetchTopics from '../hooks/fetchTopics';
+import useFetchTopics from '../hooks/fetchMyTopics';
 import { useDispatch } from 'react-redux';
 import { setTopic } from '../redux/topicSlice';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
+import fetchAllTopics from '../hooks/fetchAllTopics';
 
 
 function MyTopics() {
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
   useAuthentication();
+  const {allTopics}= fetchAllTopics()
   const {topics} = useFetchTopics();
   dispatch(setTopic(topics))
   return (
@@ -30,6 +31,18 @@ function MyTopics() {
       </div>
     ))}
   </div>
+  <h2 className="text-2xl font-bold mb-4 text-gray-800">Topics you can join:</h2>
+    {allTopics.map((topic)=>
+     <div
+        key={topic.topicId}
+        className="bg-white shadow-lg rounded-lg p-6 border border-gray-300 hover:shadow-xl transition duration-300 ease-in-out"
+      >
+        <h3 className="text-xl text-center font-semibold font-serif text-slate-800 mb-2">{topic.topicName}</h3>
+        <p className="text-gray-600 mb-2">{topic.topicDescription}</p>
+        <p className="text-sm text-gray-500">Rooms: {topic.room }</p>
+        <p className="text-sm text-gray-800 mt-2">Created by:{topic.createdBy}</p>
+      </div>
+     )}
 </div>
   );
 }

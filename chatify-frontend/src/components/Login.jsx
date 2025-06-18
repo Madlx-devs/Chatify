@@ -51,7 +51,10 @@ function Login() {
       navigate('/profile')
 
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon:"error",
+        text:err.response.data
+      })
     }
   };
 

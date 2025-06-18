@@ -1,15 +1,15 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 
-const useFetchTopics = () => {
-  const [topics, setTopics] = useState([]);
-  const [error, setError] = useState(null);
-  const token = localStorage.getItem("token");
-  const dispatch =useDispatch()
 
-  useEffect(() => {
-    const fetchTopics = async () => {
+
+const fetchAllTopics=()=>{ 
+const token = localStorage.getItem('token')
+const [allTopics ,setAllTopics]=useState([])
+const [error ,setError]=useState('')
+  
+    useEffect(() => {
+    const fetchAllTopics = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/api/v1/topic/getAll`,
@@ -20,7 +20,8 @@ const useFetchTopics = () => {
             },
           }
         );
-        setTopics(response.data);
+        setAllTopics(response.data)
+        console.log(response.data)
         //dispatch(setTopics(response.data))
       
       } catch (err) {
@@ -28,11 +29,9 @@ const useFetchTopics = () => {
         setError(err);
       }
     };
-
-    fetchTopics();
+    fetchAllTopics();
   }, []);
+  return {allTopics,error}
+}
 
-  return { topics, error};
-};
-
-export default useFetchTopics;
+export default fetchAllTopics

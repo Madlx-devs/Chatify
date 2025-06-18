@@ -3,7 +3,7 @@ import useAuthentication from '../hooks/useLogin';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import useFetchTopics from '../hooks/fetchTopics';
+import useFetchTopics from '../hooks/fetchMyTopics';
 
 function CreateRoom() {
  const {topics} = useFetchTopics();
