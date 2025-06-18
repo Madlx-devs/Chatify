@@ -20,6 +20,7 @@ public class Topic {
     private String topicName;
     @Column(nullable = false)
     private String topicDescription;
+    private String createdBy;
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Room> rooms;

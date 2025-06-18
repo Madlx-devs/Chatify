@@ -35,6 +35,10 @@ public class TopicControllers {
     public List<TopicDto> getAllTopics(@AuthenticationPrincipal UserDetails userDetails){
         return topicService.getAllTopic(userDetails);
     }
+    @GetMapping("/getMyTopics")
+    public List<TopicDto> getMyTopics (@AuthenticationPrincipal UserDetails userDetails){
+        return topicService.getTopicByUser(userDetails);
+    }
     @GetMapping("/allRooms")
     public List<Room> getAllRooms(@RequestParam  @NotNull Long topicId , @AuthenticationPrincipal UserDetails userDetails){
         return  topicService.allRoom(topicId);

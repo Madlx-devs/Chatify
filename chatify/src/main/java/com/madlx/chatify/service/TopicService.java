@@ -1,6 +1,5 @@
 package com.madlx.chatify.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.madlx.chatify.dto.TopicDto;
 import com.madlx.chatify.entity.Room;
 import com.madlx.chatify.entity.Topic;
@@ -25,7 +24,7 @@ public class TopicService {
 
     @PreAuthorize("isAuthenticated()")
     public TopicDto createTopic(Topic topic, UserDetails userDetails) {
-        
+        topic.setCreatedBy(userDetails.getUsername());
         Topic topicSaved = topicRepo.save(topic);
         return new TopicDto(topicSaved.getTopicId(), topicSaved.getTopicName(), topicSaved.getTopicDescription(), userDetails.getUsername(),0);
     }
@@ -37,7 +36,7 @@ public class TopicService {
                         topic.getTopicId(),
                         topic.getTopicName(),
                         topic.getTopicDescription(),
-                        userDetails.getUsername(),
+                        topic.getCreatedBy(),
                         topic.getRooms().size()
                 ))
                 .collect(Collectors.toList());
@@ -45,6 +44,13 @@ public class TopicService {
     public List<Room> allRoom(long topicId) {
         Topic topic= topicRepo.findById(topicId).orElseThrow(()-> new TopicNotFoundException("no topic found"));
         return topic.getRooms();
+    }
+    public List<TopicDto> getTopicByUser(UserDetails userDetails){
+       return topicRepo.findAll()
+                .stream()
+                .filter(topic -> topic.getCreatedBy().equals(userDetails.getUsername()))
+                .map(topic -> new TopicDto(topic.getTopicId(), topic.getTopicName(), topic.getTopicDescription(), topic.getCreatedBy(), topic.getRooms().size())
+                ).collect(Collectors.toList());
     }
 
 }
