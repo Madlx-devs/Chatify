@@ -37,7 +37,6 @@ const handleRoomCreation= async()=>{
     setTopicName('')
     SetTopicDescription('')
     }catch(err){
-      console.log(err)
         Swal.fire({
             icon:"error",
             title:"topic cannot be created",
@@ -70,7 +69,7 @@ const handleRoomCreation= async()=>{
     onClick={handleRoomCreation}
     className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700"
   >
-    Create Room
+    Create Topic
   </button>
 </div>
   )

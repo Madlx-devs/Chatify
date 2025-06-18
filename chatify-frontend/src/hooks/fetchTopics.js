@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const useFetchTopics = () => {
   const [topics, setTopics] = useState([]);
-  const [data, setData]=useState('')
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
+  const dispatch =useDispatch()
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -20,7 +21,8 @@ const useFetchTopics = () => {
           }
         );
         setTopics(response.data);
-       setData(response.data)
+        //dispatch(setTopics(response.data))
+      
       } catch (err) {
         console.error("Error fetching topics:", err);
         setError(err);
@@ -30,7 +32,7 @@ const useFetchTopics = () => {
     fetchTopics();
   }, []);
 
-  return { topics, error ,data};
+  return { topics, error};
 };
 
 export default useFetchTopics;

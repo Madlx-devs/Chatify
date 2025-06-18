@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAuthentication from '../hooks/useLogin';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import useFetchTopics from '../hooks/fetchTopics';
 
 function CreateRoom() {
-  const topics = useSelector((state) => state.topic.topics);
+ const {topics} = useFetchTopics();
   useAuthentication();
 
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
   const [topicId, setTopicId] = useState('');
   const [error, setError] = useState('');
+
 
   const handleRoomCreate = async () => {
     if (!roomName || !roomDescription || !topicId) {
@@ -38,6 +40,7 @@ function CreateRoom() {
         icon:"success",
         title:"room created"
       })
+      //reset room form after creating a room
       setRoomName('');
       setRoomDescription('');
       setTopicId('');
@@ -56,7 +59,18 @@ function CreateRoom() {
       <h2 className="text-2xl font-bold mb-6 text-center">Create a New Room</h2>
 
       {error && <p className="text-red-300 mb-4">{error}</p>}
-
+      <select
+        className="p-3 mb-6 rounded text-black"
+        onChange={(e) => setTopicId(e.target.value)}
+        value={topicId}
+      >
+        <option value="">-- Select a topic --</option>
+        {topics.map((topic) => (
+          <option key={topic.topicId} value={topic.topicId}>
+            {topic.topicName}
+          </option>
+        ))}
+      </select>
       <label className="mb-2 font-medium">Room Name</label>
       <input
         type="text"
@@ -76,18 +90,7 @@ function CreateRoom() {
       />
 
       <label className="mb-2 font-medium">Select Topic</label>
-      <select
-        className="p-3 mb-6 rounded text-black"
-        onChange={(e) => setTopicId(e.target.value)}
-        value={topicId}
-      >
-        <option value="">-- Select a topic --</option>
-        {topics.map((topic) => (
-          <option key={topic.topicId} value={topic.topicName}>
-            {topic.name}
-          </option>
-        ))}
-      </select>
+      
 
       <button
         onClick={handleRoomCreate}
