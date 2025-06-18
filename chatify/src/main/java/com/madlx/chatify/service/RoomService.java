@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -54,6 +55,11 @@ public class RoomService {
 
         // Save and return DTO
         Room savedRoom = roomRepo.save(room);
+
+        //add the room to the topic
+        int i = topic.getRooms().isEmpty()?0:topic.getRooms().size();
+        topic.getRooms().add(i, savedRoom);
+
 
         return new RoomDto(
                 savedRoom.getUuid(),
@@ -95,12 +101,17 @@ public class RoomService {
             throw new UserNotAuthorizedException("User not authorized");
         }
         return room.getParticipants().stream()
-                .map(user1 -> new UserDto(user1.getId(), user1.getUsername(), user1.getFirstname(), user1.getLastname()))
+                .map(user1 -> new UserDto(user1.getId(), user1.getUsername(), user1.getFirstname(), user1.getLastname(), user1.getEmail()))
                 .toList();
     }
 
     public boolean isMemberOfRoom(UUID roomId, String username) {
         Room room = roomRepo.findByUuid(roomId).orElseThrow(() -> new RuntimeException("room not find"));
         return room.getParticipants().stream().anyMatch(user -> user.getUsername().equals(username));
+    }
+
+    public List<RoomDto> getRoom(String username) {
+        return roomRepo.findAll().stream().filter((room )-> Objects.equals(room.getHost().getUsername(), username))
+                .map(room -> new RoomDto(room.getUuid(),room.getRoomName(),room.getRoomDescription(),room.getHost().getId(), room.getHost().getUsername())).toList();
     }
 }

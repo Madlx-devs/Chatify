@@ -42,7 +42,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(
                         new UsernamePasswordAuthenticationToken(userDetails ,null, userDetails.getAuthorities())
                 );
-                response.addHeader("auth-creator","madlx");
             }
         }
 

@@ -1,6 +1,6 @@
 package com.madlx.chatify.service;
 
-import com.madlx.chatify.dto.RoomDto;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.madlx.chatify.dto.TopicDto;
 import com.madlx.chatify.entity.Room;
 import com.madlx.chatify.entity.Topic;
@@ -12,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,9 +25,9 @@ public class TopicService {
 
     @PreAuthorize("isAuthenticated()")
     public TopicDto createTopic(Topic topic, UserDetails userDetails) {
-
+        
         Topic topicSaved = topicRepo.save(topic);
-        return new TopicDto(topicSaved.getTopicId(), topicSaved.getTopicName(), topicSaved.getTopicDescription(), userDetails.getUsername());
+        return new TopicDto(topicSaved.getTopicId(), topicSaved.getTopicName(), topicSaved.getTopicDescription(), userDetails.getUsername(),0);
     }
 
     public List<TopicDto> getAllTopic(UserDetails userDetails) {
@@ -38,7 +37,8 @@ public class TopicService {
                         topic.getTopicId(),
                         topic.getTopicName(),
                         topic.getTopicDescription(),
-                        userDetails.getUsername()
+                        userDetails.getUsername(),
+                        topic.getRooms().size()
                 ))
                 .collect(Collectors.toList());
     }

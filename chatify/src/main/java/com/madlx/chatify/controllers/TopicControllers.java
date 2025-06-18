@@ -5,6 +5,8 @@ import com.madlx.chatify.dto.TopicDto;
 import com.madlx.chatify.entity.Room;
 import com.madlx.chatify.entity.Topic;
 import com.madlx.chatify.service.TopicService;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,16 +27,16 @@ public class TopicControllers {
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public TopicDto createTopic(@RequestBody Topic topic, @AuthenticationPrincipal UserDetails userDetails){
+    public TopicDto createTopic(@RequestBody @NotNull Topic topic, @AuthenticationPrincipal UserDetails userDetails){
     return topicService.createTopic(topic,userDetails);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public List<TopicDto> getAllTopics(@AuthenticationPrincipal UserDetails userDetails){
         return topicService.getAllTopic(userDetails);
     }
-    @GetMapping("/allrooms")
-    public List<Room> getallRooms(@RequestParam Long topicId , @AuthenticationPrincipal UserDetails userDetails){
+    @GetMapping("/allRooms")
+    public List<Room> getAllRooms(@RequestParam  @NotNull Long topicId , @AuthenticationPrincipal UserDetails userDetails){
         return  topicService.allRoom(topicId);
     }
 }

@@ -8,6 +8,7 @@ import com.madlx.chatify.entity.Room;
 import com.madlx.chatify.security.AppUserDetails;
 import com.madlx.chatify.service.RoomService;
 import com.madlx.chatify.utility.ApiResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class RoomController {
     private RoomService roomService;
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<RoomDto> createRoom(@RequestBody RoomRequest room, @AuthenticationPrincipal UserDetails userDetails)throws UserNotAuthorizedException {
-        return new ResponseEntity<RoomDto>(roomService.createRoom(room,userDetails), HttpStatus.OK);
+    public ResponseEntity<RoomDto> createRoom(@RequestBody  @NotNull RoomRequest room, @AuthenticationPrincipal UserDetails userDetails)throws UserNotAuthorizedException {
+        return new ResponseEntity<>(roomService.createRoom(room,userDetails), HttpStatus.OK);
     }
 
     @DeleteMapping("/leave")
@@ -61,5 +62,8 @@ public class RoomController {
         List<UserDto> users=roomService.allUserByRoom(roomId,userDetails);
        return new ResponseEntity<>(new ApiResponse<>("all users ",users),HttpStatus.OK);
     }
-
+    @GetMapping("getRooms")
+    public ResponseEntity<ApiResponse<List<RoomDto>>> getAllRoom(@AuthenticationPrincipal UserDetails userDetails){
+        return   ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<List<RoomDto>>("rooms have been fetched",roomService.getRoom(userDetails.getUsername())));
+    }
 }

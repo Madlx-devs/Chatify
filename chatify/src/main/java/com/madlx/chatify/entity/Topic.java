@@ -18,8 +18,9 @@ public class Topic {
     private Long topicId;
     @Column(nullable = false)
     private String topicName;
+    @Column(nullable = false)
     private String topicDescription;
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
-    @JsonManagedReference // forward serialization
+    @JsonManagedReference
     private List<Room> rooms;
 }
