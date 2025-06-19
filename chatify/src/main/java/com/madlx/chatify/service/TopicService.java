@@ -31,7 +31,7 @@ public class TopicService {
 
     public List<TopicDto> getAllTopic(UserDetails userDetails) {
         List<Topic> topics = topicRepo.findAll();
-        return topics.stream()
+        return topics.stream().filter(topic -> !topic.getCreatedBy().equals(userDetails.getUsername()))
                 .map(topic -> new TopicDto(
                         topic.getTopicId(),
                         topic.getTopicName(),
