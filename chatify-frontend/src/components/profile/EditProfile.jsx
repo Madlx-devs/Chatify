@@ -5,7 +5,6 @@ function EditProfile() {
 useAuthentication();
 const user = JSON.parse(localStorage.getItem('user'));
 const [userdetails, setUserDetails]= useState(user)
-console.log("editing is called")
 
 const handleEdit=()=>{
  let editable = document.getElementById('name').getAttribute('readOnly')

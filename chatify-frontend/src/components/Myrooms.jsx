@@ -1,10 +1,11 @@
 import axios from 'axios';
 import useAuthentication from '../hooks/useLogin';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 function Myrooms() {
   const [rooms, setRooms] = useState([]);
+  let {roomId}= useParams()
   useAuthentication();
 
   useEffect(() => {
@@ -43,9 +44,10 @@ function Myrooms() {
             </p>
           </div>
           <div className="px-4 pb-4 pt-0 mt-2">
+             <Link to= {`/room/${room.roomId}`}>
              <button  className="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
               open room
-            </button>
+            </button></Link>
           </div>
         </div>))}
     </div>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../redux/loginSlice';
 import Swal from 'sweetalert2';
@@ -10,12 +10,12 @@ function Login() {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedIn = useSelector((state) => state.login.loggedIn)
+  const user = localStorage.getItem('user')
 
+  useEffect(()=>{
+    user &&navigate('/profile')
+  },[user])
   const handleLogin = async () => {
-    if (loggedIn) {
-      navigate('/profile')
-    }
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/login`,
@@ -32,7 +32,7 @@ function Login() {
       const user1 = JSON.stringify(response.data.user)
 
       localStorage.setItem("user", user1)
-      dispatch(login({ token }))
+      dispatch(login(token))
       const Toast = Swal.mixin({
         toast: true,
         position: "top-end",
@@ -62,7 +62,7 @@ function Login() {
     <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-8 space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-800">Log In</h2>
-
+        <form>
         <div className="flex flex-col space-y-4">
           <input
             type="text"
@@ -77,6 +77,7 @@ function Login() {
             placeholder="Password"
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={password}
+            autoComplete='true'
             onChange={(e) => setPassword(e.target.value)}
           />
 
@@ -88,6 +89,7 @@ function Login() {
             Log In
           </button>
         </div>
+        </form>
 
         <div className="text-center text-sm text-gray-500">
           Don't have an account?{' '}

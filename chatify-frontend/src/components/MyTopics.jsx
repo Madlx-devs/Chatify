@@ -18,7 +18,7 @@ function MyTopics() {
     <div className="p-6">
   <h2 className="text-2xl font-bold mb-4 text-gray-800">Your Topics:</h2>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+  <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-6">
     {topics.map((topic) => (
       <div
         key={topic.topicId}
@@ -32,7 +32,8 @@ function MyTopics() {
     ))}
   </div>
   <h2 className="text-2xl font-bold mb-4 text-gray-800">Topics you can join:</h2>
-    {allTopics.map((topic)=>
+    <div className='grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-6'>
+      {allTopics.map((topic)=>
      <div
         key={topic.topicId}
         className="bg-white shadow-lg rounded-lg p-6 border border-gray-300 hover:shadow-xl transition duration-300 ease-in-out"
@@ -43,6 +44,7 @@ function MyTopics() {
         <p className="text-sm text-gray-800 mt-2">Created by:{topic.createdBy}</p>
       </div>
      )}
+     </div>
 </div>
   );
 }

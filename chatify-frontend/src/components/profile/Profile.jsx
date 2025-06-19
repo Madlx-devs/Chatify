@@ -12,10 +12,10 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('user'))
   useEffect(()=>{
-    if(!loggedIn && token==null || !user){
+    if(!loggedIn && token=='' || !user){
       navigate("/login")
     }
-  },[loggedIn , token])
+  },[loggedIn , token, user])
 
   const handleLogout = () => {
     localStorage.removeItem('token');

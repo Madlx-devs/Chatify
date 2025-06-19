@@ -1,13 +1,19 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Signup() {
+  const navigate = useNavigate();
+  const user = localStorage.getItem('user')
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
-
+   
+  useEffect(()=>{
+    user && navigate('/profile')
+  })
   const validateEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
@@ -40,8 +46,7 @@ function Signup() {
           }
         }
       );
-      console.log(response.data)
-      alert(response.data.message ||"maja aa gaiya ");
+      alert(response.data.message);
     } catch (err) {
       alert(err.response?.data);
     }
@@ -93,9 +98,15 @@ function Signup() {
           value="Sign Up"
           onClick={handleSignup}
         />
+        <div className="text-center text-sm text-gray-500">
+          have an account?{' '}
+          <a href="/login" className="text-blue-600 hover:underline">
+            log in
+          </a>
+        </div>
       </div>
     </div>
-  );
+);
 }
 
 export default Signup;

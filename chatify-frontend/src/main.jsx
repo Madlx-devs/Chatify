@@ -16,6 +16,7 @@ import CreateRoom from './components/CreateRoom.jsx'
 import CreateTopics from './components/CreateTopics.jsx'
 import EditProfile from './components/profile/EditProfile.jsx'
 import MyTopics from './components/MyTopics.jsx'
+import Rooms from './components/Rooms.jsx'
 
 function AppRoutes() {
   
@@ -30,7 +31,8 @@ function AppRoutes() {
         <Route path='edit-profile' element={<EditProfile/>}></Route>
         <Route path="*" element={<ErrorPage/>} />
         <Route path='/my-room' element={<Myrooms/>}/>
-        <Route path='/create-topic' element={<CreateTopics/>}/>
+        <Route path='/room/:roomId' element={<Rooms/>}/> 
+        <Route path='/create-topic' element={<CreateTopics/>}/> 
         <Route path='/my-topic' element={<MyTopics/>}/>
         <Route path='/create-room' element={<CreateRoom/>}/>
       </Route>
