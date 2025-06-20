@@ -49,4 +49,7 @@ public class UserService  {
         }
         return userDto;
     }
+    public void updateUser(long userId, User user){
+        System.out.println("user will be updated ");
+    }
 }

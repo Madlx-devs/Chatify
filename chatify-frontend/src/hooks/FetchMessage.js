@@ -5,8 +5,8 @@ const useFetchMessage = (roomId) => {
   const [messages, setMessages] = useState([]);
   
   useEffect(() => {
-    const fetchMessages = async () => {
-      const user = localStorage.getItem('user');
+     (async ()=>
+      {const user = localStorage.getItem('user');
       const token = localStorage.getItem('token');
 
       if (!user || !token || !roomId) return;
@@ -24,10 +24,7 @@ const useFetchMessage = (roomId) => {
       } catch (err) {
         console.error("Error fetching messages:", err);
       }
-    };
-
-    fetchMessages();
-  }, [roomId]);
+  })()}, [roomId]);
 
   return { messages, setMessages };
 };
