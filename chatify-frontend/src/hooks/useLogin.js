@@ -5,13 +5,12 @@ import { useNavigate } from "react-router-dom"
 
 const useAuthentication =()=>{
 const token = localStorage.getItem('token')
-const loggedIn = useSelector((state)=>state.login.loggedIn)
+let loggedIn =false
 const navigate = useNavigate();
+if(token){
+    loggedIn =true;
 
- useEffect(()=>{
-    if(!loggedIn && token == null){
-        navigate('/login')
-    }
- },[ token , loggedIn])
+}
+return {loggedIn , token};
 }
 export default useAuthentication;

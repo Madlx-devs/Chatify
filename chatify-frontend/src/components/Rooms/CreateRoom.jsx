@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import useAuthentication from '../hooks/useLogin';
+import useAuthentication from '../../hooks/useLogin';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import useFetchTopics from '../hooks/fetchMyTopics';
+import useFetchTopics from '../../hooks/fetchMyTopics';
+import NotLoggedIn from '../Utility/NotLoggedIn';
 
 function CreateRoom() {
- const {topics} = useFetchTopics();
-  useAuthentication();
 
+  const {loggedIn} = useAuthentication();
+  const {topics}= loggedIn&& useFetchTopics();
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
   const [topicId, setTopicId] = useState('');
@@ -55,7 +56,9 @@ function CreateRoom() {
   };
 
   return (
-    <div className="flex flex-col bg-cyan-800 text-white p-6 rounded-md max-w-md mx-auto shadow-lg mt-10">
+    !loggedIn ?<NotLoggedIn/>:
+    <section  p-0 className='bg-black text-white'>
+    <div className="flex flex-col bg-black text-white p-6 rounded-md max-w-md mx-auto shadow-lg  border-1 border-gray-100">
       <h2 className="text-2xl font-bold mb-6 text-center">Create a New Room</h2>
 
       {error && <p className="text-red-300 mb-4">{error}</p>}
@@ -94,11 +97,12 @@ function CreateRoom() {
 
       <button
         onClick={handleRoomCreate}
-        className="bg-green-500 hover:bg-green-600 transition duration-200 text-white font-semibold py-2 px-4 rounded"
+        className="w-28  h-12 rounded-md hover:border-2 text-white border border-blue-400 transition ease-out hover:border-blue-600 "
       >
         Create Room
       </button>
     </div>
+  </section>
   );
 }
 

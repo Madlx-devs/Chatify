@@ -37,7 +37,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        http.cors(Customizer.withDefaults())
                .authorizeHttpRequests(request ->
-                        request.requestMatchers("/login", "/signup","/")
+                        request.requestMatchers("/login", "/signup","/","/auth/checkToken")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
@@ -73,7 +73,7 @@ public class SecurityConfig {
         var config = new org.springframework.web.cors.CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:5173"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedHeaders(List.of("*","X-authorization"));
         config.setAllowCredentials(true);
 
         var source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();

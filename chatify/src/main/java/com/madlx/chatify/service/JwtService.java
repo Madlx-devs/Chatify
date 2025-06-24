@@ -24,7 +24,7 @@ public class JwtService {
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+        long EXPIRATION_TIME = 1000 *60*60; // 1 hour
 
         return Jwts.builder()
                 .claims(claims)

@@ -5,6 +5,8 @@ import com.madlx.chatify.dto.MessageDto;
 import com.madlx.chatify.security.AppUserDetails;
 import com.madlx.chatify.service.MessageService;
 import com.madlx.chatify.service.MessageServiceImpl;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,7 +27,7 @@ public class MessageControllers {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendMessage(@RequestBody MessageRequest messageRequest, @AuthenticationPrincipal AppUserDetails userDetails){
+    public ResponseEntity<?> sendMessage(@RequestBody @NotNull MessageRequest messageRequest, @AuthenticationPrincipal AppUserDetails userDetails){
         return new ResponseEntity<>(messageService.sendMessage(messageRequest,userDetails),HttpStatus.CREATED);
     }
     @DeleteMapping("/delete")

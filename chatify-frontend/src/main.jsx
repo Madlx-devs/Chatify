@@ -1,22 +1,23 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import Layout from './components/Layout.jsx'
+import Layout from './components/Home/Layout.jsx'
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
-import About from './components/About.jsx'
-import HomePage from './components/HomePage.jsx'
-import Signup from './components/Signup.jsx'
-import Login from './components/Login.jsx'
-import Profile from './components/profile/Profile.jsx'
+import About from './components/About/About.jsx'
+import HomePage from './components/Home/HomePage.jsx'
+import Signup from './components/Login/Signup.jsx'
+import Login from './components/login/Login.jsx'
+import Profile from './components/Profile/Profile.jsx'
 import { Provider, useSelector } from 'react-redux'
 import { store } from './redux/store.js'
-import ErrorPage from './components/ErrorPage.jsx'
-import Myrooms from './components/Myrooms.jsx'
-import CreateRoom from './components/CreateRoom.jsx'
-import CreateTopics from './components/CreateTopics.jsx'
-import EditProfile from './components/profile/EditProfile.jsx'
-import MyTopics from './components/MyTopics.jsx'
-import Rooms from './components/Rooms.jsx'
+import ErrorPage from './components/Utility/ErrorPage.jsx'
+import Myrooms from './components/Rooms/Myrooms.jsx'
+import CreateRoom from './components/Rooms/CreateRoom.jsx'
+import CreateTopics from './components/Topics/CreateTopics.jsx'
+import EditProfile from './components/Profile/EditProfile.jsx'
+import MyTopics from './components/Topics/MyTopics.jsx'
+import Rooms from './components/Rooms/Rooms.jsx'
+import Topic from './components/Topics/Topic.jsx'
 
 function AppRoutes() {
   
@@ -35,6 +36,7 @@ function AppRoutes() {
         <Route path='/create-topic' element={<CreateTopics/>}/> 
         <Route path='/my-topic' element={<MyTopics/>}/>
         <Route path='/create-room' element={<CreateRoom/>}/>
+        <Route path ='/topic/:topicId' element={<Topic/>} />
       </Route>
     </Routes>
   )

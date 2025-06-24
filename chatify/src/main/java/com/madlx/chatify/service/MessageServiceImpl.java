@@ -12,6 +12,7 @@ import com.madlx.chatify.exceptions.TopicNotFoundException;
 import com.madlx.chatify.exceptions.UserNotAuthorizedException;
 import com.madlx.chatify.repo.MessageRepo;
 import com.madlx.chatify.repo.RoomRepo;
+import com.madlx.chatify.repo.TopicRepo;
 import com.madlx.chatify.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,23 +39,18 @@ public class MessageServiceImpl implements MessageService {
     @PreAuthorize("isAuthenticated()")
     @Override
     public MessageDto sendMessage(MessageRequest messageRequest, UserDetails userDetails)throws UsernameNotFoundException, RoomNotFoundException, TopicNotFoundException {
-       //fetching the username from the authentication(securityContextHolder)
-        String uname= userDetails.getUsername();
-        //fetching the user based on the username;
-        User user=  userRepo.findByUsername(uname).orElseThrow(()->new UsernameNotFoundException("No such user"));
-        //fetching the room....
-        Room room = roomRepo.findById(messageRequest.getRoomId()).orElseThrow(()->new RoomNotFoundException("no Topic exist"));
-        //topic id
-       Topic topic= room.getTopic();
-        Message message=new Message();
-        message.setUser(user);
-        message.setRoom(room);
-        message.setTopic(topic);
-        message.setContent(messageRequest.getContent());
-
-        Message messageReceived=messageRepo.save(message);
-
-         return new MessageDto(messageReceived.getContent(),messageReceived.getUser().getUsername());
+       Room room=roomRepo.findById(messageRequest.getRoomId()).orElseThrow(()-> new RoomNotFoundException("room not found"));
+       User user =userRepo.findByUsername(userDetails.getUsername()).orElseThrow(()->new UsernameNotFoundException("user not found"));
+       if(room.getParticipants().contains(user)){
+           Message message=new Message();
+           message.setUser(user);
+           message.setRoom(room);
+           message.setTopic(room.getTopic());
+           message.setContent(messageRequest.getContent());
+           Message msgSaved= messageRepo.save(message);
+           return new MessageDto(msgSaved.getMessageId(), msgSaved.getContent(),msgSaved.getUser().getUsername());
+       }
+       throw new UserNotAuthorizedException("you can not send message in this room join the room to send the message");
     }
         @PreAuthorize("isAuthenticated()")
         @Override
@@ -65,7 +61,7 @@ public class MessageServiceImpl implements MessageService {
               throw  new UserNotAuthorizedException("you are not authorized to view this , please join the room");
             }
             List<Message>messages= messageRepo.findMessageByRoom(roomId);
-            return messages.stream().map(message -> new MessageDto(message.getContent(),message.getUser().getUsername()))
+            return messages.stream().map(message -> new MessageDto( message.getMessageId(),message.getContent(),message.getUser().getUsername()))
                     .toList();
         }
 

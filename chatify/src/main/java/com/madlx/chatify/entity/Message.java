@@ -1,9 +1,13 @@
 package com.madlx.chatify.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import reactor.util.annotation.Nullable;
 
 @Entity
 @Data
@@ -13,6 +17,8 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long messageId;
+    @NotNull
+    @NotEmpty
     @Column(columnDefinition ="TEXT")
     private String content;
     @ManyToOne(optional = false)

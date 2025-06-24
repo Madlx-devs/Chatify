@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
-import useFetchMessage from '../hooks/FetchMessage';
-import MessageBox from './MessageBox';
+import useFetchMessage from '../../hooks/FetchMessage';
+import MessageBox from '../message/MessageBox';
 
 function Rooms() {
   const user = localStorage.getItem('user');
@@ -12,7 +12,7 @@ function Rooms() {
 
   return (
     <>
-      <MessageBox message={messages}/>
+      <MessageBox message={messages} roomId={roomId}/>
     </>
   );
 }

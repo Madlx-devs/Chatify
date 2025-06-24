@@ -4,6 +4,7 @@ package com.madlx.chatify.controllers;
 import com.madlx.chatify.dataRequest.MessageRequest;
 import com.madlx.chatify.security.AppUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -21,9 +22,9 @@ public class SocketController {
 
     private final MessageControllers messageControllers;
 
-    @MessageMapping("/roomsgit/{roomId}")
+    @MessageMapping("/room/{roomId}")
     @SendTo("/rooms/{roomId}")
     public ResponseEntity<?> SendMessage(@DestinationVariable UUID roomId , MessageRequest request, @AuthenticationPrincipal AppUserDetails userDetails){
-        return messageControllers.sendMessage(request,userDetails);
+        return  ResponseEntity.status(HttpStatus.OK).body(messageControllers.sendMessage(request,userDetails));
     }
 }

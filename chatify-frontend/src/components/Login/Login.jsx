@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout } from '../redux/loginSlice';
+import { login, logout } from '../../redux/loginSlice';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,6 +1,6 @@
 
 
-import Rooms from "./Rooms"
+import Rooms from "../Rooms/Rooms"
 
 
 function HomePage() {
