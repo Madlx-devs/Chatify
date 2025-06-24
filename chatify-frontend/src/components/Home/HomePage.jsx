@@ -75,7 +75,6 @@ function HomePage() {
           Get Started for Free
         </a>
       </section>
-      <Rooms/>
     </main>
 
   )
