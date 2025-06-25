@@ -59,7 +59,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-800 flex items-center justify-center p-4">
+    <div className="min-h-screen  flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-lg max-w-sm w-full p-8 space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-800">Log In</h2>
         <form>
@@ -67,7 +67,7 @@ function Login() {
           <input
             type="text"
             placeholder="Username"
-            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-black w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -75,7 +75,7 @@ function Login() {
           <input
             type="password"
             placeholder="Password"
-            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="text-black w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={password}
             autoComplete='true'
             onChange={(e) => setPassword(e.target.value)}

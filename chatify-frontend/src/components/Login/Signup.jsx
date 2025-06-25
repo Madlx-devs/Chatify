@@ -53,40 +53,40 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-800 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-3xl font-bold text-center text-slate-800 mb-6">Sign Up</h1>
 
         <input
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-4 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           value={firstname}
           onChange={(e) => setFirstName(e.target.value)}
           placeholder="Enter your first name"
         />
         <input
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-4 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           value={lastname}
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Enter your last name"
         />
         <input
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-4 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your username"
         />
         <input
-          className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-4 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email address"
         />
         <input
-          className="w-full p-3 mb-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 mb-6 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

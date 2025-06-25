@@ -63,7 +63,7 @@ function CreateRoom() {
 
       {error && <p className="text-red-300 mb-4">{error}</p>}
       <select
-        className="p-3 mb-6 rounded text-black"
+        className="p-3 mb-6 rounded  text-black"
         onChange={(e) => setTopicId(e.target.value)}
         value={topicId}
       >
@@ -74,7 +74,7 @@ function CreateRoom() {
           </option>
         ))}
       </select>
-      <label className="mb-2 font-medium">Room Name</label>
+      <label className="mb-2 font-medium text-black">Room Name</label>
       <input
         type="text"
         className="p-3 mb-4 rounded text-black"
@@ -83,7 +83,7 @@ function CreateRoom() {
         placeholder="Enter room name"
       />
 
-      <label className="mb-2 font-medium">Room Description</label>
+      <label className="mb-2 font-medium text-black">Room Description</label>
       <input
         type="text"
         className="p-3 mb-4 rounded text-black"
@@ -92,7 +92,7 @@ function CreateRoom() {
         placeholder="Enter room description"
       />
 
-      <label className="mb-2 font-medium">Select Topic</label>
+      <label className="mb-2 font-medium text-black">Select Topic</label>
       
 
       <button
