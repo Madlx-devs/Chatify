@@ -11,13 +11,13 @@ import Profile from './components/Profile/Profile.jsx'
 import { Provider, useSelector } from 'react-redux'
 import { store } from './redux/store.js'
 import ErrorPage from './components/Utility/ErrorPage.jsx'
-import Myrooms from './components/Rooms/Myrooms.jsx'
 import CreateRoom from './components/Rooms/CreateRoom.jsx'
 import CreateTopics from './components/Topics/CreateTopics.jsx'
 import EditProfile from './components/Profile/EditProfile.jsx'
 import MyTopics from './components/Topics/MyTopics.jsx'
 import Rooms from './components/Rooms/Rooms.jsx'
 import Topic from './components/Topics/Topic.jsx'
+import Myrooms from './components/rooms/Myrooms.jsx'
 
 function AppRoutes() {
   

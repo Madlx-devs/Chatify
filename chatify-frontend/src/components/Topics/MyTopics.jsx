@@ -13,8 +13,8 @@ function MyTopics() {
  
   const {loggedIn}= useAuthentication();
   const dispatch = useDispatch();
-  const {allTopics}= fetchAllTopics()
-  const {topics} = useFetchTopics();
+  const {allTopics}= loggedIn&&fetchAllTopics()
+  const {topics} =loggedIn&&useFetchTopics();
   dispatch(setTopic(topics))
   return (
 
@@ -24,8 +24,7 @@ function MyTopics() {
 
   <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-6">
     {topics.map((topic) => (
-      <div
-        key={topic.topicId}
+      <Link  key={topic.topicId} to={`/topic/${topic.topicId}`}><div
         className="bg-white shadow-lg rounded-lg p-6 border border-gray-300 hover:shadow-xl transition duration-300 ease-in-out"
       >
         <h3 className="text-xl text-center font-semibold font-serif text-slate-800 mb-2">{topic.topicName}</h3>
@@ -33,6 +32,7 @@ function MyTopics() {
         <p className="text-sm text-gray-500">Rooms: {topic.room }</p>
         <p className="text-sm text-gray-800 mt-2">Created by:{topic.createdBy}</p>
       </div>
+      </Link>
     ))}
   </div>
   <h2 className="text-2xl font-bold mb-4 text-gray-800">Topics you can join:</h2>

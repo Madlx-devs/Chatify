@@ -1,9 +1,8 @@
 import SendChat from "./SendChat"
 function MessageBox({message,roomId}) {
   return (
-  <section className="bg-black">
-    <div className=" border-blue-400 mb-4">
-  <div className="space-y-3">
+    <div className=" border-blue-400 mb-4 flex-grow">
+  <div className="space-y-3 flex-grow">
     {message.map((msg, index) => (
       <div key={index} className="flex items-start gap-2">
         <div id="profile" className="bg-blue-400 w-8 h-8 rounded-full flex-shrink-0"></div>
@@ -18,7 +17,6 @@ function MessageBox({message,roomId}) {
     <SendChat roomId={roomId} />
   </div>
 </div>
-</section>
 
   )
 }

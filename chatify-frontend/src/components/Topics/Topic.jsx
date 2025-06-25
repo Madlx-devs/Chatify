@@ -1,18 +1,30 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import useAuthentication from '../../hooks/useLogin'
+import NotLoggedIn from '../Utility/NotLoggedIn'
+import useRoomFetch from '../../hooks/FetchRoomsTopicWise'
+import Rooms from '../Rooms/Rooms'
 
 function Topic() {
 const topicId = useParams();
+const {token , loggedIn}= useAuthentication();
 
-
+const rooms=token&&loggedIn&&useRoomFetch(topicId);
+console.log(rooms)
   return (
-
+  !loggedIn?<NotLoggedIn/>:
     <div>
         <h1>Topic</h1>
         <div>rooms</div>
-        
+        {rooms.map((room)=>(
+          <Link to={`/room/${room.uuid}`}>
+            <div>
+              {room.roomName}
+            </div>
+          </Link>
+        ))}
         </div>
-    
+       
   )
 }
 

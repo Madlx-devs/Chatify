@@ -32,7 +32,7 @@ function SendChat({roomId}) {
     
   return (
    <div className="flex flex-col items-start w-full max-w-md  mt-4">
-  <div className="flex w-full">
+  <div className="flex w-full h-max">
     <input
       type="text"
       value={message}

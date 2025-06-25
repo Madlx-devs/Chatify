@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useAuthentication from "./useLogin";
 
 
 
 const fetchAllTopics=()=>{ 
+const loggedIn = useAuthentication()
 const token = localStorage.getItem('token')
 const [allTopics ,setAllTopics]=useState([])
 const [error ,setError]=useState('')
