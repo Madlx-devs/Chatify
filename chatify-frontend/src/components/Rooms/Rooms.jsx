@@ -3,6 +3,7 @@ import useFetchMessage from '../../hooks/FetchMessage';
 import MessageBox from '../message/MessageBox';
 import useAuthentication from '../../hooks/useLogin';
 import { useEffect } from 'react';
+import JoinRoom from './JoinRoom';
 
 function Rooms() {
   const {token , loggedIn}= useAuthentication();
@@ -19,7 +20,9 @@ function Rooms() {
 
   return (
     <>
-      <MessageBox message={messages} roomId={roomId}/>
+    {joined?<MessageBox message={messages} roomId={roomId}/>:
+    <JoinRoom/>
+    }
     </>
   );
 }

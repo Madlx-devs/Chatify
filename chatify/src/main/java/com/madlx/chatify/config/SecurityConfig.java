@@ -37,7 +37,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        http.cors(Customizer.withDefaults())
                .authorizeHttpRequests(request ->
-                        request.requestMatchers("/login", "/signup","/","/auth/checkToken")
+                        request.requestMatchers("/login", "/signup","/","/ws/**","/auth/checkToken")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())

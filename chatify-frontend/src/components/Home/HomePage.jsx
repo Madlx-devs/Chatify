@@ -1,14 +1,20 @@
-
-
 import Rooms from "../Rooms/Rooms"
+import useAuthentication from "../../hooks/useLogin";
+import { useEffect } from "react";
+import socketConnection from "../../utils/webSocket";
 
 
 function HomePage() {
+useEffect(()=>{
+  const client = socketConnection()
+})
+//const {loggedIn} =useAuthentication();
+const user = localStorage.getItem('user')
 
-  const user = localStorage.getItem('user')
    
   return (
-    !user &&
+
+    
     <main className=" text-white bg-black">
       {/* Hero Section */}
       <section className="text-center py-16 px-4">
@@ -27,6 +33,7 @@ function HomePage() {
       </section>
 
       {/* Features Section */}
+  
       <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto grid gap-10 md:grid-cols-3 text-center">
           <div>

@@ -40,7 +40,11 @@ public class RoomController {
     public ResponseEntity<Room> leaveRoom(@RequestParam String roomId,@AuthenticationPrincipal UserDetails userDetails){
         return new ResponseEntity<Room>(roomService.leaveRoom(UUID.fromString(roomId),userDetails),HttpStatus.OK);
     }
-
+    @GetMapping("/isParticipant")
+    @PreAuthorize("isAuthenticated()")
+    public boolean isParticipant(@RequestParam String roomId, @AuthenticationPrincipal UserDetails userDetails){
+        return roomService.isMemberOfRoom(UUID.fromString(roomId), userDetails.getUsername());
+    }
     @PostMapping("/join/{uuid}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<RoomDto>joinRoom(@PathVariable(value = "uuid") UUID roomId,@AuthenticationPrincipal AppUserDetails userDetails){

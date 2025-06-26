@@ -12,6 +12,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.UUID;
 
@@ -22,8 +23,9 @@ public class SocketController {
 
     private final MessageControllers messageControllers;
 
-    @MessageMapping("/room/{roomId}")
-    @SendTo("/rooms/{roomId}")
+    //@MessageMapping("/room/{roomId}")
+    //@SendTo("/rooms/{roomId}")
+    @PostMapping("/send")
     public ResponseEntity<?> SendMessage(@DestinationVariable UUID roomId , MessageRequest request, @AuthenticationPrincipal AppUserDetails userDetails){
         return  ResponseEntity.status(HttpStatus.OK).body(messageControllers.sendMessage(request,userDetails));
     }

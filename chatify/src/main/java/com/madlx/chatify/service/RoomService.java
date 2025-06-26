@@ -106,7 +106,7 @@ public class RoomService {
     }
 
     public boolean isMemberOfRoom(UUID roomId, String username) {
-        Room room = roomRepo.findByUuid(roomId).orElseThrow(() -> new RuntimeException("room not find"));
+        Room room = roomRepo.findByUuid(roomId).orElseThrow(() -> new RuntimeException("room not found"));
         return room.getParticipants().stream().anyMatch(user -> user.getUsername().equals(username));
     }
 
