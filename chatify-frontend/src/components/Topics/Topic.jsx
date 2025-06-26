@@ -16,9 +16,10 @@ console.log(rooms)
     <div>
         <h1>Topic</h1>
         <div>rooms</div>
+        <h1> rooms in this topic {rooms.length!==0?rooms.length:0}</h1>
         {rooms.map((room)=>(
-          <Link to={`/room/${room.uuid}`}>
-            <div>
+          <Link  key={room.uuid}to={`/room/${room.uuid}`}>
+            <div className='bg-white text-black p-4 rounded-lg shadow-md mb-4 hover:bg-gray-100 transition-colors'>
               {room.roomName}
             </div>
           </Link>

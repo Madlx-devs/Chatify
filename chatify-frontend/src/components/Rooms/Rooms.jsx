@@ -8,16 +8,14 @@ import JoinRoom from './JoinRoom';
 function Rooms() {
   const {token , loggedIn}= useAuthentication();
   const { roomId } = useParams();
-  const { messages, setMessages } = useFetchMessage(roomId);
+  const { messages, setMessages ,joined} = useFetchMessage(roomId);
   useEffect(()=>{
     ()=>{useFetchMessage(roomId)
     }
-  },[setMessages()])
-  debugger;
+  },[roomId]);
 
 
   if (!loggedIn || !token) return <p>You must be logged in to view this room.</p>;
-
   return (
     <>
     {joined?<MessageBox message={messages} roomId={roomId}/>:
@@ -25,6 +23,7 @@ function Rooms() {
     }
     </>
   );
+  
 }
 
 export default Rooms;

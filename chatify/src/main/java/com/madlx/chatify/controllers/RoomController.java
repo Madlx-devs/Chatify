@@ -47,18 +47,15 @@ public class RoomController {
     }
     @PostMapping("/join/{uuid}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<RoomDto>joinRoom(@PathVariable(value = "uuid") UUID roomId,@AuthenticationPrincipal AppUserDetails userDetails){
-        return new ResponseEntity<>(roomService.joinRoom(roomId,userDetails),HttpStatus.OK);
+    public ResponseEntity<ApiResponse<RoomDto>>joinRoom(@PathVariable(value = "uuid") UUID roomId,@AuthenticationPrincipal AppUserDetails userDetails){
+        boolean participant = roomService.isMemberOfRoom(roomId, userDetails.getUsername());
+        return participant
+                ? ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse<>("you  are  already  in this room", null))
+                : ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse<>("", roomService.joinRoom(roomId, userDetails)));
     }
-    @GetMapping("/is-member/{uuid}")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Map<String, Boolean>> isMember(
-            @PathVariable("uuid") UUID roomId,
-            @AuthenticationPrincipal AppUserDetails userDetails
-    ) {
-        boolean isMember = roomService.isMemberOfRoom(roomId, userDetails.getUsername());
-        return ResponseEntity.ok(Collections.singletonMap("isMember", isMember));
-    }
+
 
     @GetMapping("/getUsers")
     @PreAuthorize("isAuthenticated()")
@@ -68,6 +65,6 @@ public class RoomController {
     }
     @GetMapping("getRooms")
     public ResponseEntity<ApiResponse<List<RoomDto>>> getAllRoom(@AuthenticationPrincipal UserDetails userDetails){
-        return   ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<List<RoomDto>>("rooms have been fetched",roomService.getRoom(userDetails.getUsername())));
+        return   ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<List<RoomDto>>("rooms have been fetched",roomService.getAllRooms(userDetails)));
     }
 }

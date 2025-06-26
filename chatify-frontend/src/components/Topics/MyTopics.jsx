@@ -38,8 +38,7 @@ function MyTopics() {
   <h2 className="text-2xl font-bold mb-4 text-gray-800">Topics you can join:</h2>
     <div className='grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 gap-6'>
       {allTopics.map((topic)=>
-     <Link to={`/topic/${topic.topicId}`} ><div
-        key={topic.topicId}
+     <Link key={topic.topicId} to={`/topic/${topic.topicId}`} ><div
         className="bg-white shadow-lg rounded-lg p-6 border border-gray-300 hover:shadow-xl transition duration-300 ease-in-out"
       >
         <h3 className="text-xl text-center font-semibold font-serif text-slate-800 mb-2">{topic.topicName}</h3>

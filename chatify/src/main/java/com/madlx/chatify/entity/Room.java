@@ -38,8 +38,8 @@ public class Room {
     private Topic topic;
 
     @JoinTable(name = "room_admins",
-    joinColumns = @JoinColumn(name="room_id"),
-    inverseJoinColumns = @JoinColumn(name ="admin_id")
+    joinColumns = @JoinColumn(name="room_id", unique = false),
+    inverseJoinColumns = @JoinColumn(name ="admins_id", unique = false)
     )
     @OneToMany
     private List<User> admins;

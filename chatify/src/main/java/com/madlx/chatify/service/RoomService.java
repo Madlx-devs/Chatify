@@ -81,6 +81,15 @@ public class RoomService {
     }
 
     @PreAuthorize("isAuthenticated()")
+    public List<RoomDto> getAllRooms(UserDetails userDetails){
+       User user = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(()-> new UsernameNotFoundException("no such user found "));
+        return roomRepo.findAll().stream()
+                .filter(room -> room.getParticipants()
+                        .contains(user))
+                .map(room -> new RoomDto(room.getUuid(),room.getRoomDescription(), room.getRoomName())).toList();
+    }
+
+    @PreAuthorize("isAuthenticated()")
     public Room leaveRoom(UUID roomId, UserDetails userDetails) {
         return roomRepo.findById(roomId)
                 .map(room -> {
@@ -111,7 +120,7 @@ public class RoomService {
     }
 
     public List<RoomDto> getRoom(String username) {
-        return roomRepo.findAll().stream().filter((room )-> Objects.equals(room.getHost().getUsername(), username))
+        return roomRepo.findAll().stream().filter((room )-> Objects.equals(room.getHost().getUsername(),  username))
                 .map(room -> new RoomDto(room.getUuid(),room.getRoomName(),room.getRoomDescription(),room.getHost().getId(), room.getHost().getUsername())).toList();
     }
 }

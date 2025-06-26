@@ -14,7 +14,7 @@ public class RoomDto  {
     private Long hostId;
     private String username;
 
-    public RoomDto(UUID roomId, String roomName, String roomDescription) {
+    public RoomDto(UUID roomId, String roomName, String roomDescription ) {
         this.roomId = roomId;
         this.roomName = roomName;
         this.roomDescription = roomDescription;
