@@ -27,8 +27,12 @@ import java.util.UUID;
 @RequestMapping("/api/v1/rooms")
 @CrossOrigin(origins ="http://localhost:5173")
 public class RoomController {
-    @Autowired
-    private RoomService roomService;
+
+    private final RoomService roomService;
+
+    public RoomController(RoomService roomService){
+        this.roomService=roomService;
+    }
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<RoomDto> createRoom(@RequestBody  @NotNull RoomRequest room, @AuthenticationPrincipal UserDetails userDetails)throws UserNotAuthorizedException {

@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins ="http://localhost:5173")
 public class TopicControllers {
     private final TopicService topicService;
-    @Autowired
+
     public TopicControllers(TopicService topicService) {
         this.topicService = topicService;
     }
