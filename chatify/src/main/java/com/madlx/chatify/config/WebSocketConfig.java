@@ -10,6 +10,7 @@ document
  */
 @Configuration
 @EnableWebSocketMessageBroker
+@EnableWebSocket
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     public void registerStompEndpoints(StompEndpointRegistry registry) {
