@@ -15,7 +15,20 @@ The project demonstrates how to build a modern chat system using **Java backend 
 * 🧩 Spring Boot backend architecture
 * 📦 Modular project structure
 
----
+### 🔐 Authentication
+
+* User registration and login
+* JWT based authentication
+* Secure sessions
+
+* Database integration
+* Stored messages and user profiles
+
+### 🌐 Deployment
+
+* Deploy backend to cloud
+* Host frontend for public access
+
 
 # 🛠 Tech Stack
 
@@ -146,11 +159,7 @@ Example:
 
 Planned features and enhancements:
 
-### 🔐 Authentication
 
-* User registration and login
-* JWT based authentication
-* Secure sessions
 
 ### 💬 Chat Improvements
 
@@ -165,13 +174,6 @@ Planned features and enhancements:
 
 ### 💾 Persistence
 
-* Database integration
-* Stored messages and user profiles
-
-### 🌐 Deployment
-
-* Deploy backend to cloud
-* Host frontend for public access
 
 ---
 
